@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>LandingPage using Threejs </title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<script type="x-shader/x-vertex" id="vertexshader">
+
+  attribute float size;
+  attribute vec3 customColor;
+  varying vec3 vColor;
+
+  void main() {
+
+    vColor = customColor;
+    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+    gl_PointSize = size * ( 300.0 / -mvPosition.z );
+    gl_Position = projectionMatrix * mvPosition;
+
+  }
+
+</script>
+<script type="x-shader/x-fragment" id="fragmentshader">
+
+ uniform vec3 color;
+ uniform sampler2D pointTexture;
+
+ varying vec3 vColor;
+
+ void main() {
+
+   gl_FragColor = vec4( color * vColor, 1.0 );
+   gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
+
+ }
+</script>
+
+<div id="magic"></div>
+<div class="playground">
+  <div class="bottomPosition">
+     <a href="" target="_blank"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 100 100">
+      <defs>
+        <polygon id="poly" points="0,-40 -34.6,-20 -34.6,20 0,40 34.6,20 34.6,-20"/>
+        <filter id="extrude">
+          <feMorphology in="SourceAlpha" operator="dilate" radius="2"/>
+          <feConvolveMatrix kernelMatrix="0 -1 0 -1 4 -1 0 -1 0" divisor="1"/>
+          <feComposite in2="SourceAlpha" operator="in"/>
+          <feComposite in2="SourceGraphic" operator="over"/>
+        </filter>
+      </defs>
+      <g filter="url(#extrude)">
+        <use xlink:href="#poly" fill="#000205" stroke="#FFF" stroke-width="2"/>
+        <use xlink:href="#poly" fill="#000205" stroke="#FFF" stroke-width="2" transform="rotateX(90)"/>
+        <use xlink:href="#poly" fill="#000205" stroke="#FFF" stroke-width="2" transform="rotateX(180)"/>
+        <use xlink:href="#poly" fill="#000205" stroke="#FFF" stroke-width="2" transform="rotateX(-90)"/>
+        <use xlink:href="#poly" fill="#000205" stroke="#FFF" stroke-width="2" transform="rotateY(90)"/>
+        <use xlink:href="#poly" fill="#000205" stroke="#FFF" stroke-width="2" transform="rotateY(-90)"/>
+      </g>
+    </svg>
+    </a>
+        <h1 class="special">WebSolGuru<br><span class="minText">web development & design</span></h1>
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r125/three.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
